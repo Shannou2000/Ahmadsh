@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <!-- إعدادات الصفحة الأساسية -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AODS - أحمد</title>
+    
+    <!-- تحميل مكتبة Tailwind CSS للتصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- تحميل الخطوط من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* تحديد الخطوط للغات المختلفة */
+        .arabic { font-family: 'Cairo', sans-serif; }
+        .english { font-family: 'Inter', sans-serif; }
+        
+        /* تصميم شعار AODS بتدرج لوني */
+        .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* خلفية متدرجة للأقسام المهمة */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* تأثير الحركة عند التمرير على البطاقات */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* حركة شريط المهارات */
+        .skill-bar {
+            transition: width 2s ease-in-out;
+        }
+        
+        /* إخفاء العناصر */
+        .hidden { display: none; }
+        
+        /* حركة الظهور التدريجي */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تأثيرات روابط التنقل */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* تأثيرات الأزرار */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* تأثير النبض للعناصر المهمة */
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 arabic">
+    
+    <!-- شريط التنقل العلوي -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                
+                <!-- شعار AODS -->
+                <div class="flex items-center">
+                    <h1 class="logo-text text-3xl pulse-glow">AODS</h1>
+                </div>
+                
+                <!-- روابط التنقل الرئيسية -->
+                <div class="hidden md:flex space-x-8 rtl:space-x-reverse">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-purple-600 px-3 py-2 font-medium" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-purple-600 px-3 py-2 font-medium" data-ar="نبذة عني" data-en="About">نبذة عني</a>
+                    <a href="#services" class="nav-link text-gray-700 hover:text-purple-600 px-3 py-2 font-medium" data-ar="خدماتي" data-en="Services">خدماتي</a>
+                    <a href="#portfolio" class="nav-link text-gray-700 hover:text-purple-600 px-3 py-2 font-medium" data-ar="أعمالي" data-en="Portfolio">أعمالي</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-purple-600 px-3 py-2 font-medium" data-ar="تواصل معي" data-en="Contact">تواصل معي</a>
+                </div>
+                
+                <!-- زر تبديل اللغة -->
+                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                    <button id="langToggle" class="btn-primary text-white px-4 py-2 rounded-lg font-medium">
+                        <span data-ar="English" data-en="العربية">English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- القسم الرئيسي (Hero Section) -->
+    <section id="home" class="pt-16 min-h-screen flex items-center gradient-bg relative overflow-hidden">
+        <!-- خلفية متحركة -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-20 w-72 h-72 bg-white rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+            <div class="absolute top-40 right-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-2000"></div>
+            <div class="absolute bottom-20 left-40 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl animate-pulse animation-delay-4000"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
+            <div class="fade-in">
+                <!-- الشعار الرئيسي -->
+                <h1 class="logo-text text-6xl md:text-8xl mb-6 text-white">AODS</h1>
+                
+                <!-- العنوان الفرعي -->
+                <h2 class="text-2xl md:text-4xl font-bold mb-4" data-ar="أحمد - مطور ومصمم مواقع احترافي" data-en="Ahmed - Professional Web Developer & Designer">أحمد - مطور ومصمم مواقع احترافي</h2>
+                
+                <!-- الوصف -->
+                <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto" data-ar="أحول أفكارك إلى مواقع إلكترونية احترافية وتطبيقات ذكية تساعد في نمو أعمالك" data-en="I transform your ideas into professional websites and smart applications that help grow your business">أحول أفكارك إلى مواقع إلكترونية احترافية وتطبيقات ذكية تساعد في نمو أعمالك</p>
+                
+                <!-- أزرار الإجراءات -->
+                <div class="space-x-4 rtl:space-x-reverse">
+                    <a href="#portfolio" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105" data-ar="استكشف أعمالي" data-en="Explore My Work">استكشف أعمالي</a>
+                    <a href="#contact" class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-purple-600 transition-all transform hover:scale-105" data-ar="ابدأ مشروعك" data-en="Start Your Project">ابدأ مشروعك</a>
+                </div>
+                
+                <!-- إحصائيات سريعة -->
+                <div class="grid grid-cols-3 gap-8 mt-16 max-w-2xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold mb-2">50+</div>
+                        <div class="text-sm opacity-75" data-ar="مشروع مكتمل" data-en="Projects Completed">مشروع مكتمل</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold mb-2">5+</div>
+                        <div class="text-sm opacity-75" data-ar="سنوات خبرة" data-en="Years Experience">سنوات خبرة</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold mb-2">100%</div>
+                        <div class="text-sm opacity-75" data-ar="رضا العملاء" data-en="Client Satisfaction">رضا العملاء</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم نبذة عني -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- عنوان القسم -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4" data-ar="نبذة عني" data-en="About Me">نبذة عني</h2>
+                <div class="w-24 h-1 gradient-bg mx-auto rounded"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto" data-ar="تعرف على قصتي ورحلتي في عالم التقنية والبرمجة" data-en="Learn about my story and journey in the world of technology and programming">تعرف على قصتي ورحلتي في عالم التقنية والبرمجة</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- الصورة الشخصية (رمز تعبيري) -->
+                <div class="text-center lg:text-right">
+                    <div class="inline-block p-8 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full mb-6">
+                        <div class="text-8xl">👨‍💻</div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <div class="w-4 h-4 gradient-bg rounded-full ml-3"></div>
+                            <span class="text-gray-700 font-medium" data-ar="متخصص في تطوير المواقع" data-en="Web Development Specialist">متخصص في تطوير المواقع</span>
+                        </div>
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <div class="w-4 h-4 gradient-bg rounded-full ml-3"></div>
+                            <span class="text-gray-700 font-medium" data-ar="خبرة في التصميم الحديث" data-en="Modern Design Experience">خبرة في التصميم الحديث</span>
+                        </div>
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <div class="w-4 h-4 gradient-bg rounded-full ml-3"></div>
+                            <span class="text-gray-700 font-medium" data-ar="شغوف بالتقنيات الجديدة" data-en="Passionate About New Technologies">شغوف بالتقنيات الجديدة</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- النص التعريفي -->
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-gray-900" data-ar="مرحباً، أنا أحمد!" data-en="Hello, I'm Ahmed!">مرحباً، أنا أحمد!</h3>
+                    
+                    <p class="text-gray-600 leading-relaxed text-lg" data-ar="مطور ومصمم مواقع إلكترونية محترف، أتخصص في إنشاء تجارب رقمية استثنائية تجمع بين الجمال والوظائف العملية. أؤمن بأن كل موقع يجب أن يحكي قصة فريدة ويحقق أهداف صاحبه." data-en="Professional web developer and designer, specializing in creating exceptional digital experiences that combine beauty with practical functionality. I believe every website should tell a unique story and achieve its owner's goals.">مطور ومصمم مواقع إلكترونية محترف، أتخصص في إنشاء تجارب رقمية استثنائية تجمع بين الجمال والوظائف العملية. أؤمن بأن كل موقع يجب أن يحكي قصة فريدة ويحقق أهداف صاحبه.</p>
+                    
+                    <p class="text-gray-600 leading-relaxed text-lg" data-ar="خلال رحلتي المهنية، عملت مع عشرات العملاء من مختلف المجالات، وساعدتهم في تحويل رؤيتهم إلى واقع رقمي يحقق النجاح والنمو لأعمالهم." data-en="Throughout my professional journey, I have worked with dozens of clients from various fields, helping them transform their vision into digital reality that achieves success and growth for their businesses.">خلال رحلتي المهنية، عملت مع عشرات العملاء من مختلف المجالات، وساعدتهم في تحويل رؤيتهم إلى واقع رقمي يحقق النجاح والنمو لأعمالهم.</p>
+                    
+                    <!-- مهاراتي الأساسية -->
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl mb-2">🎨</div>
+                            <div class="font-bold text-gray-900" data-ar="تصميم UI/UX" data-en="UI/UX Design">تصميم UI/UX</div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl mb-2">💻</div>
+                            <div class="font-bold text-gray-900" data-ar="تطوير Frontend" data-en="Frontend Development">تطوير Frontend</div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl mb-2">📱</div>
+                            <div class="font-bold text-gray-900" data-ar="تصميم متجاوب" data-en="Responsive Design">تصميم متجاوب</div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg text-center">
+                            <div class="text-2xl mb-2">⚡</div>
+                            <div class="font-bold text-gray-900" data-ar="تحسين الأداء" data-en="Performance Optimization">تحسين الأداء</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- عنوان قسم الخدمات -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4" data-ar="خدماتي" data-en="My Services">خدماتي</h2>
+                <div class="w-24 h-1 gradient-bg mx-auto rounded"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto" data-ar="أقدم مجموعة شاملة من الخدمات التقنية لتلبية احتياجاتك الرقمية" data-en="I offer a comprehensive range of technical services to meet your digital needs">أقدم مجموعة شاملة من الخدمات التقنية لتلبية احتياجاتك الرقمية</p>
+            </div>
+            
+            <!-- شبكة الخدمات -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- خدمة تطوير المواقع -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">🌐</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="تطوير المواقع" data-en="Web Development">تطوير المواقع</h3>
+                    <p class="text-gray-600 mb-6" data-ar="إنشاء مواقع إلكترونية احترافية وسريعة ومتجاوبة مع جميع الأجهزة" data-en="Creating professional, fast, and responsive websites compatible with all devices">إنشاء مواقع إلكترونية احترافية وسريعة ومتجاوبة مع جميع الأجهزة</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• مواقع الشركات والأعمال" data-en="• Corporate and business websites">• مواقع الشركات والأعمال</li>
+                        <li data-ar="• المتاجر الإلكترونية" data-en="• E-commerce stores">• المتاجر الإلكترونية</li>
+                        <li data-ar="• المواقع الشخصية" data-en="• Personal websites">• المواقع الشخصية</li>
+                    </ul>
+                </div>
+                
+                <!-- خدمة تصميم UI/UX -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">🎨</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="تصميم UI/UX" data-en="UI/UX Design">تصميم UI/UX</h3>
+                    <p class="text-gray-600 mb-6" data-ar="تصميم واجهات مستخدم جميلة وسهلة الاستخدام تحقق أفضل تجربة للزوار" data-en="Designing beautiful and user-friendly interfaces that provide the best experience for visitors">تصميم واجهات مستخدم جميلة وسهلة الاستخدام تحقق أفضل تجربة للزوار</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• تصميم الواجهات" data-en="• Interface design">• تصميم الواجهات</li>
+                        <li data-ar="• تجربة المستخدم" data-en="• User experience">• تجربة المستخدم</li>
+                        <li data-ar="• النماذج الأولية" data-en="• Prototypes">• النماذج الأولية</li>
+                    </ul>
+                </div>
+                
+                <!-- خدمة التطبيقات -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">📱</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="تطوير التطبيقات" data-en="App Development">تطوير التطبيقات</h3>
+                    <p class="text-gray-600 mb-6" data-ar="بناء تطبيقات ويب تفاعلية وذكية تلبي احتياجات عملك المحددة" data-en="Building interactive and smart web applications that meet your specific business needs">بناء تطبيقات ويب تفاعلية وذكية تلبي احتياجات عملك المحددة</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• تطبيقات الويب" data-en="• Web applications">• تطبيقات الويب</li>
+                        <li data-ar="• لوحات التحكم" data-en="• Dashboards">• لوحات التحكم</li>
+                        <li data-ar="• الأنظمة الإدارية" data-en="• Management systems">• الأنظمة الإدارية</li>
+                    </ul>
+                </div>
+                
+                <!-- خدمة التحسين -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">⚡</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="تحسين الأداء" data-en="Performance Optimization">تحسين الأداء</h3>
+                    <p class="text-gray-600 mb-6" data-ar="تسريع المواقع وتحسين أدائها لضمان تجربة مستخدم ممتازة" data-en="Speeding up websites and improving their performance to ensure excellent user experience">تسريع المواقع وتحسين أدائها لضمان تجربة مستخدم ممتازة</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• تحسين سرعة التحميل" data-en="• Loading speed optimization">• تحسين سرعة التحميل</li>
+                        <li data-ar="• تحسين محركات البحث" data-en="• SEO optimization">• تحسين محركات البحث</li>
+                        <li data-ar="• تحسين الأمان" data-en="• Security enhancement">• تحسين الأمان</li>
+                    </ul>
+                </div>
+                
+                <!-- خدمة الصيانة -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">🔧</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="الصيانة والدعم" data-en="Maintenance & Support">الصيانة والدعم</h3>
+                    <p class="text-gray-600 mb-6" data-ar="خدمات صيانة مستمرة ودعم فني لضمان عمل موقعك بأفضل حال دائماً" data-en="Continuous maintenance services and technical support to ensure your website always works at its best">خدمات صيانة مستمرة ودعم فني لضمان عمل موقعك بأفضل حال دائماً</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• التحديثات الدورية" data-en="• Regular updates">• التحديثات الدورية</li>
+                        <li data-ar="• النسخ الاحتياطية" data-en="• Backups">• النسخ الاحتياطية</li>
+                        <li data-ar="• الدعم الفني" data-en="• Technical support">• الدعم الفني</li>
+                    </ul>
+                </div>
+                
+                <!-- خدمة الاستشارات -->
+                <div class="card-hover bg-white rounded-2xl p-8 shadow-lg text-center">
+                    <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl">💡</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-ar="الاستشارات التقنية" data-en="Technical Consulting">الاستشارات التقنية</h3>
+                    <p class="text-gray-600 mb-6" data-ar="استشارات متخصصة لمساعدتك في اختيار أفضل الحلول التقنية لمشروعك" data-en="Specialized consultations to help you choose the best technical solutions for your project">استشارات متخصصة لمساعدتك في اختيار أفضل الحلول التقنية لمشروعك</p>
+                    <ul class="text-sm text-gray-500 space-y-2">
+                        <li data-ar="• تحليل المتطلبات" data-en="• Requirements analysis">• تحليل المتطلبات</li>
+                        <li data-ar="• اختيار التقنيات" data-en="• Technology selection">• اختيار التقنيات</li>
+                        <li data-ar="• التخطيط الاستراتيجي" data-en="• Strategic planning">• التخطيط الاستراتيجي</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم معرض الأعمال -->
+    <section id="portfolio" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- عنوان معرض الأعمال -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4" data-ar="معرض أعمالي" data-en="My Portfolio">معرض أعمالي</h2>
+                <div class="w-24 h-1 gradient-bg mx-auto rounded"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto" data-ar="استكشف مجموعة من أفضل المشاريع التي عملت عليها مؤخراً" data-en="Explore a collection of the best projects I've worked on recently">استكشف مجموعة من أفضل المشاريع التي عملت عليها مؤخراً</p>
+            </div>
+            
+            <!-- شبكة المشاريع -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- مشروع متجر إلكتروني -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center relative">
+                        <div class="text-white text-6xl">🛒</div>
+                        <div class="absolute top-4 right-4 bg-white bg-opacity-20 px-3 py-1 rounded-full text-white text-sm font-medium" data-ar="جديد" data-en="New">جديد</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="متجر الأزياء الإلكتروني" data-en="Fashion E-commerce Store">متجر الأزياء الإلكتروني</h3>
+                        <p class="text-gray-600 mb-4" data-ar="متجر إلكتروني متكامل للأزياء مع نظام دفع آمن وإدارة المخزون" data-en="Complete fashion e-commerce store with secure payment system and inventory management">متجر إلكتروني متكامل للأزياء مع نظام دفع آمن وإدارة المخزون</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">React</span>
+                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">Node.js</span>
+                            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">MongoDB</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+                
+                <!-- مشروع موقع شركة -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center">
+                        <div class="text-white text-6xl">🏢</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="موقع شركة التقنية" data-en="Tech Company Website">موقع شركة التقنية</h3>
+                        <p class="text-gray-600 mb-4" data-ar="موقع احترافي لشركة تقنية مع عرض الخدمات ونظام إدارة المحتوى" data-en="Professional website for a tech company with services showcase and content management system">موقع احترافي لشركة تقنية مع عرض الخدمات ونظام إدارة المحتوى</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">Vue.js</span>
+                            <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                            <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm">CSS3</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+                
+                <!-- مشروع تطبيق إدارة -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center">
+                        <div class="text-white text-6xl">📊</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="لوحة تحكم إدارية" data-en="Admin Dashboard">لوحة تحكم إدارية</h3>
+                        <p class="text-gray-600 mb-4" data-ar="نظام إدارة شامل مع إحصائيات تفاعلية وتقارير مفصلة" data-en="Comprehensive management system with interactive statistics and detailed reports">نظام إدارة شامل مع إحصائيات تفاعلية وتقارير مفصلة</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">Angular</span>
+                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">TypeScript</span>
+                            <span class="bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full text-sm">Chart.js</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+                
+                <!-- مشروع موقع شخصي -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center">
+                        <div class="text-white text-6xl">👨‍🎨</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="موقع فنان تشكيلي" data-en="Artist Portfolio Website">موقع فنان تشكيلي</h3>
+                        <p class="text-gray-600 mb-4" data-ar="معرض فني رقمي لعرض الأعمال الفنية مع معرض صور تفاعلي" data-en="Digital art gallery to showcase artworks with interactive photo gallery">معرض فني رقمي لعرض الأعمال الفنية مع معرض صور تفاعلي</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">HTML5</span>
+                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">CSS3</span>
+                            <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+                
+                <!-- مشروع تطبيق تعليمي -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center">
+                        <div class="text-white text-6xl">📚</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="منصة التعلم الإلكتروني" data-en="E-Learning Platform">منصة التعلم الإلكتروني</h3>
+                        <p class="text-gray-600 mb-4" data-ar="منصة تعليمية تفاعلية مع نظام إدارة الدورات والاختبارات" data-en="Interactive educational platform with course and exam management system">منصة تعليمية تفاعلية مع نظام إدارة الدورات والاختبارات</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">React</span>
+                            <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">Express</span>
+                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">MySQL</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+                
+                <!-- مشروع تطبيق طعام -->
+                <div class="card-hover bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="h-48 gradient-bg flex items-center justify-center">
+                        <div class="text-white text-6xl">🍕</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-ar="تطبيق توصيل الطعام" data-en="Food Delivery App">تطبيق توصيل الطعام</h3>
+                        <p class="text-gray-600 mb-4" data-ar="تطبيق ويب لطلب وتوصيل الطعام مع نظام تتبع الطلبات" data-en="Web app for food ordering and delivery with order tracking system">تطبيق ويب لطلب وتوصيل الطعام مع نظام تتبع الطلبات</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">Flutter</span>
+                            <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm">Firebase</span>
+                            <span class="bg-teal-100 text-teal-600 px-3 py-1 rounded-full text-sm">Dart</span>
+                        </div>
+                        <button class="w-full btn-primary text-white py-2 rounded-lg font-medium" data-ar="عرض المشروع" data-en="View Project">عرض المشروع</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- زر عرض المزيد -->
+            <div class="text-center mt-12">
+                <button class="btn-primary text-white px-8 py-3 rounded-lg font-bold" data-ar="عرض المزيد من الأعمال" data-en="View More Projects">عرض المزيد من الأعمال</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل -->
+    <section id="contact" class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- عنوان قسم التواصل -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-white mb-4" data-ar="تواصل معي" data-en="Contact Me">تواصل معي</h2>
+                <div class="w-24 h-1 bg-white mx-auto rounded"></div>
+                <p class="text-white opacity-90 mt-4 max-w-2xl mx-auto text-lg" data-ar="هل لديك مشروع في ذهنك؟ دعنا نتحدث ونحول فكرتك إلى واقع رقمي مذهل!" data-en="Do you have a project in mind? Let's talk and turn your idea into an amazing digital reality!">هل لديك مشروع في ذهنك؟ دعنا نتحدث ونحول فكرتك إلى واقع رقمي مذهل!</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                
+                <!-- معلومات التواصل -->
+                <div class="text-white">
+                    <h3 class="text-2xl font-bold mb-6" data-ar="لنبدأ محادثة!" data-en="Let's Start a Conversation!">لنبدأ محادثة!</h3>
+                    <p class="text-xl mb-8 opacity-90" data-ar="أحب العمل مع الأشخاص المبدعين وأصحاب الرؤى الطموحة. سواء كان لديك مشروع كبير أو فكرة بسيطة، أنا هنا لمساعدتك." data-en="I love working with creative people and ambitious visionaries. Whether you have a big project or a simple idea, I'm here to help you.">أحب العمل مع الأشخاص المبدعين وأصحاب الرؤى الطموحة. سواء كان لديك مشروع كبير أو فكرة بسيطة، أنا هنا لمساعدتك.</p>
+                    
+                    <!-- طرق التواصل -->
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-white bg-opacity-20 rounded-xl flex items-center justify-center ml-4">
+                                <span class="text-2xl">📧</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">ahmed@aods.dev</div>
+                                <div class="opacity-75" data-ar="راسلني عبر البريد الإلكتروني" data-en="Send me an email">راسلني عبر البريد الإلكتروني</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-white bg-opacity-20 rounded-xl flex items-center justify-center ml-4">
+                                <span class="text-2xl">📱</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">+966 50 123 4567</div>
+                                <div class="opacity-75" data-ar="اتصل بي مباشرة" data-en="Call me directly">اتصل بي مباشرة</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-white bg-opacity-20 rounded-xl flex items-center justify-center ml-4">
+                                <span class="text-2xl">📍</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg" data-ar="الرياض، السعودية" data-en="Riyadh, Saudi Arabia">الرياض، السعودية</div>
+                                <div class="opacity-75" data-ar="متاح للعمل محلياً وعن بُعد" data-en="Available for local and remote work">متاح للعمل محلياً وعن بُعد</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-14 h-14 bg-white bg-opacity-20 rounded-xl flex items-center justify-center ml-4">
+                                <span class="text-2xl">⏰</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg" data-ar="الأحد - الخميس" data-en="Sunday - Thursday">الأحد - الخميس</div>
+                                <div class="opacity-75" data-ar="9:00 صباحاً - 6:00 مساءً" data-en="9:00 AM - 6:00 PM">9:00 صباحاً - 6:00 مساءً</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- روابط التواصل الاجتماعي -->
+                    <div class="flex space-x-4 rtl:space-x-reverse mt-8">
+                        <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all transform hover:scale-110">
+                            <span class="text-xl">💼</span>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all transform hover:scale-110">
+                            <span class="text-xl">🐙</span>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all transform hover:scale-110">
+                            <span class="text-xl">🐦</span>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center hover:bg-opacity-30 transition-all transform hover:scale-110">
+                            <span class="text-xl">📷</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- نموذج التواصل -->
+                <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold text-white mb-6" data-ar="أرسل رسالة" data-en="Send a Message">أرسل رسالة</h3>
+                    
+                    <form id="contactForm" class="space-y-6">
+                        <!-- حقل الاسم -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="الاسم الكامل *" data-en="Full Name *">الاسم الكامل *</label>
+                            <input type="text" required class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" data-placeholder-ar="اكتب اسمك الكامل" data-placeholder-en="Enter your full name" placeholder="اكتب اسمك الكامل">
+                        </div>
+                        
+                        <!-- حقل البريد الإلكتروني -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="البريد الإلكتروني *" data-en="Email Address *">البريد الإلكتروني *</label>
+                            <input type="email" required class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" data-placeholder-ar="example@email.com" data-placeholder-en="example@email.com" placeholder="example@email.com">
+                        </div>
+                        
+                        <!-- حقل رقم الهاتف -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="رقم الهاتف" data-en="Phone Number">رقم الهاتف</label>
+                            <input type="tel" class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50" data-placeholder-ar="+966 50 123 4567" data-placeholder-en="+966 50 123 4567" placeholder="+966 50 123 4567">
+                        </div>
+                        
+                        <!-- حقل نوع المشروع -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="نوع المشروع *" data-en="Project Type *">نوع المشروع *</label>
+                            <select required class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                                <option value="" data-ar="اختر نوع المشروع" data-en="Select project type">اختر نوع المشروع</option>
+                                <option value="website" data-ar="موقع إلكتروني" data-en="Website">موقع إلكتروني</option>
+                                <option value="ecommerce" data-ar="متجر إلكتروني" data-en="E-commerce Store">متجر إلكتروني</option>
+                                <option value="webapp" data-ar="تطبيق ويب" data-en="Web Application">تطبيق ويب</option>
+                                <option value="design" data-ar="تصميم UI/UX" data-en="UI/UX Design">تصميم UI/UX</option>
+                                <option value="consultation" data-ar="استشارة تقنية" data-en="Technical Consultation">استشارة تقنية</option>
+                                <option value="other" data-ar="أخرى" data-en="Other">أخرى</option>
+                            </select>
+                        </div>
+                        
+                        <!-- حقل الميزانية -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="الميزانية المتوقعة" data-en="Expected Budget">الميزانية المتوقعة</label>
+                            <select class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                                <option value="" data-ar="اختر الميزانية" data-en="Select budget range">اختر الميزانية</option>
+                                <option value="5000-10000" data-ar="5,000 - 10,000 ريال" data-en="5,000 - 10,000 SAR">5,000 - 10,000 ريال</option>
+                                <option value="10000-25000" data-ar="10,000 - 25,000 ريال" data-en="10,000 - 25,000 SAR">10,000 - 25,000 ريال</option>
+                                <option value="25000-50000" data-ar="25,000 - 50,000 ريال" data-en="25,000 - 50,000 SAR">25,000 - 50,000 ريال</option>
+                                <option value="50000+" data-ar="أكثر من 50,000 ريال" data-en="50,000+ SAR">أكثر من 50,000 ريال</option>
+                            </select>
+                        </div>
+                        
+                        <!-- حقل الرسالة -->
+                        <div>
+                            <label class="block text-white font-medium mb-2" data-ar="تفاصيل المشروع *" data-en="Project Details *">تفاصيل المشروع *</label>
+                            <textarea rows="5" required class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-white placeholder-opacity-70 border border-white border-opacity-30 focus:border-opacity-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 resize-none" data-placeholder-ar="أخبرني عن مشروعك، أهدافك، والمميزات التي تريدها..." data-placeholder-en="Tell me about your project, goals, and features you want..." placeholder="أخبرني عن مشروعك، أهدافك، والمميزات التي تريدها..."></textarea>
+                        </div>
+                        
+                        <!-- زر الإرسال -->
+                        <button type="submit" class="w-full bg-white text-purple-600 py-3 rounded-lg font-bold hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center justify-center">
+                            <span data-ar="إرسال الرسالة" data-en="Send Message">إرسال الرسالة</span>
+                            <span class="mr-2">📤</span>
+                        </button>
+                        
+                        <!-- رسالة الخصوصية -->
+                        <p class="text-white opacity-75 text-sm text-center" data-ar="معلوماتك آمنة ولن يتم مشاركتها مع أي طرف ثالث" data-en="Your information is secure and will not be shared with any third party">معلوماتك آمنة ولن يتم مشاركتها مع أي طرف ثالث</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                
+                <!-- معلومات الشركة -->
+                <div class="md:col-span-2">
+                    <div class="logo-text text-3xl mb-4 text-white">AODS</div>
+                    <p class="text-gray-400 mb-6 max-w-md" data-ar="أحول الأفكار إلى مواقع إلكترونية احترافية وتطبيقات ذكية تساعد في نمو الأعمال وتحقيق الأهداف الرقمية." data-en="I transform ideas into professional websites and smart applications that help businesses grow and achieve digital goals.">أحول الأفكار إلى مواقع إلكترونية احترافية وتطبيقات ذكية تساعد في نمو الأعمال وتحقيق الأهداف الرقمية.</p>
+                    
+                    <!-- روابط التواصل الاجتماعي في التذييل -->
+                    <div class="flex space-x-4 rtl:space-x-reverse">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors">
+                            <span class="text-lg">💼</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors">
+                            <span class="text-lg">🐙</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors">
+                            <span class="text-lg">🐦</span>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-purple-600 transition-colors">
+                            <span class="text-lg">📷</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- روابط سريعة -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-ar="روابط سريعة" data-en="Quick Links">روابط سريعة</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors" data-ar="نبذة عني" data-en="About">نبذة عني</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors" data-ar="خدماتي" data-en="Services">خدماتي</a></li>
+                        <li><a href="#portfolio" class="text-gray-400 hover:text-white transition-colors" data-ar="أعمالي" data-en="Portfolio">أعمالي</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors" data-ar="تواصل معي" data-en="Contact">تواصل معي</a></li>
+                    </ul>
+                </div>
+                
+                <!-- معلومات التواصل -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4" data-ar="معلومات التواصل" data-en="Contact Info">معلومات التواصل</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <span class="ml-2">📧</span>
+                            <span>ahmed@aods.dev</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="ml-2">📱</span>
+                            <span>+966 50 123 4567</span>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="ml-2">📍</span>
+                            <span data-ar="الرياض، السعودية" data-en="Riyadh, Saudi Arabia">الرياض، السعودية</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- خط الفصل -->
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400" data-ar="© 2024 AODS - أحمد. جميع الحقوق محفوظة. صُمم وطُور بـ ❤️" data-en="© 2024 AODS - Ahmed. All rights reserved. Designed and developed with ❤️">© 2024 AODS - أحمد. جميع الحقوق محفوظة. صُمم وطُور بـ ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // متغيرات اللغة والعناصر الأساسية
+        let currentLang = 'ar'; // اللغة الحالية
+        const langToggle = document.getElementById('langToggle'); // زر تبديل اللغة
+        const html = document.documentElement; // عنصر HTML الرئيسي
+
+        // وظيفة تبديل اللغة
+        function switchLanguage() {
+            // تغيير اللغة الحالية
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            
+            // تحديث خصائص HTML
+            html.lang = currentLang;
+            html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            // تحديث فئة الخط في الجسم
+            document.body.className = currentLang === 'ar' ? 'bg-gray-50 arabic' : 'bg-gray-50 english';
+            
+            // تحديث جميع العناصر القابلة للترجمة
+            const elements = document.querySelectorAll('[data-ar][data-en]');
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-${currentLang}`);
+                if (text) {
+                    // التحقق من نوع العنصر لتحديد طريقة التحديث
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = text;
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = text;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+            
+            // تحديث النصوص النائبة للحقول
+            const placeholderElements = document.querySelectorAll('[data-placeholder-ar][data-placeholder-en]');
+            placeholderElements.forEach(element => {
+                const placeholder = element.getAttribute(`data-placeholder-${currentLang}`);
+                if (placeholder) {
+                    element.placeholder = placeholder;
+                }
+            });
+        }
+
+        // ربط وظيفة تبديل اللغة بالزر
+        langToggle.addEventListener('click', switchLanguage);
+
+        // وظيفة التمرير السلس للروابط الداخلية
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    // التمرير السلس إلى القسم المطلوب
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // معالج نموذج التواصل
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // منع الإرسال الافتراضي للنموذج
+            
+            // الحصول على بيانات النموذج
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const phone = this.querySelector('input[type="tel"]').value;
+            const projectType = this.querySelector('select').value;
+            const message = this.querySelector('textarea').value;
+            
+            // التحقق من الحقول المطلوبة
+            if (name && email && projectType && message) {
+                // رسالة النجاح
+                const successMsg = currentLang === 'ar' 
+                    ? 'شكراً لك! تم إرسال رسالتك بنجاح. سأتواصل معك خلال 24 ساعة.' 
+                    : 'Thank you! Your message has been sent successfully. I will contact you within 24 hours.';
+                
+                alert(successMsg);
+                
+                // إعادة تعيين النموذج
+                this.reset();
+                
+                // يمكن هنا إضافة كود لإرسال البيانات إلى الخادم
+                console.log('بيانات النموذج:', {
+                    name, email, phone, projectType, message
+                });
+                
+            } else {
+                // رسالة الخطأ
+                const errorMsg = currentLang === 'ar' 
+                    ? 'يرجى ملء جميع الحقول المطلوبة (المميزة بـ *).' 
+                    : 'Please fill in all required fields (marked with *).';
+                
+                alert(errorMsg);
+            }
+        });
+
+        // مراقب التقاطع لتحريك أشرطة المهارات
+        const observerOptions = {
+            threshold: 0.5, // عندما يكون 50% من العنصر مرئياً
+            rootMargin: '0px 0px -100px 0px' // هامش إضافي
+        };
+
+        // إنشاء مراقب التقاطع
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // العثور على أشرطة المهارات وتحريكها
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 200);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // مراقبة قسم المهارات إذا كان موجوداً
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            observer.observe(skillsSection);
+        }
+
+        // مراقب الظهور التدريجي للأقسام
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, { threshold: 0.1 }); // عندما يكون 10% من العنصر مرئياً
+
+        // تطبيق مراقب الظهور على جميع الأقسام
+        document.querySelectorAll('section').forEach(section => {
+            fadeObserver.observe(section);
+        });
+
+        // وظيفة لمعالجة النقر على أزرار المشاريع
+        document.querySelectorAll('button[data-ar="عرض المشروع"]').forEach(button => {
+            button.addEventListener('click', function() {
+                const projectTitle = this.closest('.card-hover').querySelector('h3').textContent;
+                const viewMsg = currentLang === 'ar' 
+                    ? `عذراً، هذا مشروع تجريبي. للاطلاع على المشاريع الحقيقية، يرجى التواصل معي.`
+                    : `Sorry, this is a demo project. To view real projects, please contact me.`;
+                
+                alert(viewMsg);
+            });
+        });
+
+        // تأثير النبض للشعار
+        setInterval(() => {
+            const logo = document.querySelector('.pulse-glow');
+            if (logo) {
+                logo.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    logo.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }, 3000); // كل 3 ثوانٍ
+
+        // تحسين الأداء: تحميل الصور بشكل تدريجي
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        imageObserver.unobserve(img);
+                    }
+                }
+            });
+        });
+
+        // مراقبة جميع الصور التي تحتوي على data-src
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+
+        // إضافة تأثيرات صوتية للتفاعلات (اختيارية)
+        function playClickSound() {
+            // يمكن إضافة صوت نقرة هنا إذا رغبت
+            // const audio = new Audio('click-sound.mp3');
+            // audio.play();
+        }
+
+        // ربط الأصوات بالأزرار
+        document.querySelectorAll('button, .btn-primary').forEach(button => {
+            button.addEventListener('click', playClickSound);
+        });
+
+        // وظيفة لحفظ تفضيل اللغة في التخزين المحلي
+        function saveLanguagePreference() {
+            localStorage.setItem('preferredLanguage', currentLang);
+        }
+
+        // وظيفة لتحميل تفضيل اللغة من التخزين المحلي
+        function loadLanguagePreference() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== currentLang) {
+                switchLanguage();
+            }
+        }
+
+        // تحديث وظيفة تبديل اللغة لحفظ التفضيل
+        const originalSwitchLanguage = switchLanguage;
+        switchLanguage = function() {
+            originalSwitchLanguage();
+            saveLanguagePreference();
+        };
+
+        // تحميل تفضيل اللغة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', loadLanguagePreference);
+
+        // رسالة ترحيب في وحدة التحكم للمطورين
+        console.log(`
+        🚀 مرحباً بك في موقع AODS!
+        💻 تم تطوير هذا الموقع بواسطة أحمد
+        📧 للتواصل: ahmed@aods.dev
+        🌟 شكراً لزيارتك!
+        
+        Welcome to AODS Website!
+        Developed by Ahmed
+        Contact: ahmed@aods.dev
+        Thanks for visiting!
+        `);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e28ecf86392cfd',t:'MTc1NTAyODgxNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
